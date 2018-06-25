@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Express App Example</title>
+</head>
+
+<body>
+  <h1>Express App Example</h1>
+  <button id="sendMessage">Send message (check console)</button>
+
+  <script src="./clusterws.min.js"></script>
+  <script>
+    let socket = new ClusterWS({
+      url: 'ws://localhost:3000'
+    });
+    socket.on('connect', () => {
+      console.log('Socket connected');
+    })
+
+    socket.on('greet', (message) => {
+      console.log(message)
+      socket.send('greetBack', 'Hy backend i am fine how about you')
+    })
+
+    socket.on('echo', (message) => {
+      console.log(message)
+    })
+    document.getElementById('sendMessage').onclick = () => {
+      socket.send('echo', "I am echo")
+    }
+  </script>
+</body>
+
+</html>
